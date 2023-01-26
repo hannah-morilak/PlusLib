@@ -1904,15 +1904,23 @@ std::string vtkPlusWinProbeVideoSource::GetARFIPushConfigurationString()
 {
   if(Connected)
   {
-    m_ARFIPushConfigurationString = WPGetARFIPushConfigurationString();
+    char* temp = new char[50];
+    WPGetARFIPushConfigurationString(temp);
+    m_ARFIPushConfigurationString.assign(temp);
+    delete[] temp;
+    // m_ARFIPushConfigurationString = WPGetARFIPushConfigurationString();
   }
   return m_ARFIPushConfigurationString;
 }
 
 //----------------------------------------------------------------------------
 std::string vtkPlusWinProbeVideoSource::GetFPGARevDateString()
-{
-  m_FPGAVersion = WPGetFPGARevDateString();
+{  
+  char* temp = new char[20];
+  WPGetFPGARevDateString(temp);
+  m_FPGAVersion.assign(temp);
+  delete[] temp;
+  // m_FPGAVersion = WPGetFPGARevDateString();
   return m_FPGAVersion;
 }
 
@@ -2025,4 +2033,61 @@ PlusStatus vtkPlusWinProbeVideoSource::SendCommand(const char * command)
     return PLUS_SUCCESS;
   }
   return PLUS_FAIL;
+}
+
+//----------------------------------------------------------------------------
+PlusStatus vtkPlusWinProbeVideoSource::InternalApplyImagingParameterChange()
+{
+  std::cout << "HELLO HANNAH";
+  if (!this->Connected)
+  {
+    // trying to apply parameters when not connected leads to crashes
+    LOG_ERROR("Cannot apply changes while not connected.")
+    return PLUS_FAIL;
+  }
+
+  PlusStatus status = PLUS_SUCCESS;
+
+  if (this->ImagingParameters->IsSet(vtkPlusUsImagingParameters::KEY_DEPTH)
+    && this->ImagingParameters->IsPending(vtkPlusUsImagingParameters::KEY_DEPTH))
+  {
+    if (this->SetScanDepthMm(this->ImagingParameters->GetDepthMm()) == PLUS_SUCCESS)
+    {
+      this->ImagingParameters->SetPending(vtkPlusUsImagingParameters::KEY_DEPTH, false);
+    }
+    else
+    {
+      LOG_ERROR("Failed to set depth imaging parameter");
+      status = PLUS_FAIL;
+    }
+  }
+
+  if (this->ImagingParameters->IsSet(vtkPlusUsImagingParameters::KEY_VOLTAGE)
+    && this->ImagingParameters->IsPending(vtkPlusUsImagingParameters::KEY_VOLTAGE))
+  {
+    if (this->SetVoltage(this->ImagingParameters->GetProbeVoltage()) == PLUS_SUCCESS)
+    {
+      this->ImagingParameters->SetPending(vtkPlusUsImagingParameters::KEY_VOLTAGE, false);
+    }
+    else
+    {
+      LOG_ERROR("Failed to set voltage parameter");
+      status = PLUS_FAIL;
+    }
+  }
+
+  if (this->ImagingParameters->IsSet(vtkPlusUsImagingParameters::KEY_FREQUENCY)
+    && this->ImagingParameters->IsPending(vtkPlusUsImagingParameters::KEY_FREQUENCY))
+  {
+    if (this->SetTransmitFrequencyMHz(this->ImagingParameters->GetFrequencyMhz()) == PLUS_SUCCESS)
+    {
+      this->ImagingParameters->SetPending(vtkPlusUsImagingParameters::KEY_FREQUENCY, false);
+    }
+    else
+    {
+      LOG_ERROR("Failed to set frequency parameter");
+      status = PLUS_FAIL;
+    }
+  }
+  return status;
 }

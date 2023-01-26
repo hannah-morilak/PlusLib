@@ -8,7 +8,6 @@
 #define __vtkPlusGetUsParameterCommand_h
 
 #include "vtkPlusServerExport.h"
-
 #include "vtkPlusCommand.h"
 
 class vtkPlusUsDevice;
