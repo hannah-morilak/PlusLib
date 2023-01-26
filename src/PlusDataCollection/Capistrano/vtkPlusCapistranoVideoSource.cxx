@@ -297,33 +297,33 @@ public:
     USProbeParamsDB[0]                   =  pt;
 
     // ID : 1 ---------------------------------------------------------------
-    pt.probetype.PFDistance              = 20.0f;          // pivot to face distance (mm)
-    pt.probetype.FFDistance              = 1.0f;           // transducer face to probe face distance
+    pt.probetype.PFDistance              = 4.94f;          // pivot to face distance (mm)
+    pt.probetype.FFDistance              = 3.15;           // transducer face to probe face distance
     pt.probetype.Velocity                = 1532.0f;        // sound velocity (mm/us)
     pt.probetype.NumVectors              = 255;            // number of vectors taken
     pt.Samples                           = 2048;
-    pt.probetype.PulseFrequency          = 35.0f;          // current pulse frequency
-    pt.Filter                            = 22;
-    pt.probetype.SampleFrequency         = 80.0f;          // in MHz
+    pt.probetype.PulseFrequency          = 12.0f;          // current pulse frequency
+    pt.Filter                            = 8;
+    pt.probetype.SampleFrequency         = 40.0f;          // in MHz
     pt.Amode                             = false;
     pt.Preamp                            = false;
     pt.probetype.DisplayAngle            =                 // display angle from center (rad)
-      vtkMath::RadiansFromDegrees(30.0f / 2.0f);
-    sprintf(pt.probetype.Name, "WP");                      // Name of this probe
-    pt.DisplayOffset                     = 0;
-    pt.PulseVoltage                      = 100.0f;
+      vtkMath::RadiansFromDegrees(60.0f / 2.0f);
+    sprintf(pt.probetype.Name, "OP10");                    // Name of this probe
+    pt.DisplayOffset                     = 128;
+    pt.PulseVoltage                      = 75.0f;
     pt.probetype.OversampleRate          = 0.0f;           // Amount of oversampling in R
     pt.probetype.PivFaceSamples          = 0.0f;           // calculated pivot to face samples
     pt.probetype.MModeOffset             = 0.0f;           // Fudge Factor for MMode calibration (unused)
     pt.probetype.ArcScan                 = 0;              // Is this an ArcScan probe
     pt.probetype.PFDOffset               = 0;              // offset added to FPD when delaying sampling
-    pt.probeservo.JitterComp             = 25;
-    pt.probeservo.PositionScale          = 60;
-    pt.probeservo.SweepAngle             = 36.0f;
-    pt.probeservo.ServoGain              = 60;
-    pt.probeservo.Overscan               = 50;
-    pt.probeservo.DerivativeCompensation = 100;
-    pt.ProbeID                           = 0;              // ProbeID
+    pt.probeservo.JitterComp             = 35;
+    pt.probeservo.PositionScale          = 14;
+    pt.probeservo.SweepAngle             = 70.0f;
+    pt.probeservo.ServoGain              = 70;
+    pt.probeservo.Overscan               = 25;
+    pt.probeservo.DerivativeCompensation = 30;
+    pt.ProbeID                           = 1;              // ProbeID
 
     USProbeParamsDB[1]                   =  pt;
 
